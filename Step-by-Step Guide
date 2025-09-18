@@ -1,0 +1,9 @@
+1) VMware Workstation Pro 17 was already installed on my laptop for my college courses such as Pentesting, Database Systems, User Interfaces, etc.
+
+2) Then Google "Window Server Demo Download" and click on "Windows Server 2025 | Microsoft Evaluation Center". This will take you to the page where you can download the ISO file for both the server and client side.
+
+3) We then download the Windows 11 Enterprise ISO file for the client side server.
+
+4) Once the ISO files have been downloaded, we go over to VMWare in order to set up the Windows VMs, starting with the server side first.
+
+5) 
