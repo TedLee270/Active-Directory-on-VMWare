@@ -14,4 +14,8 @@
 
 8) After the completion of all Windows servers, I took a snapshot of each one in order to establish a baseline snapshot in case something goes severely wrong and I need to hard reset back to original settings. I took another snapshot of the server side VMs after configuration to establish a post-config baseline.
 
-9)
+9) Set up the original Windows Server with a manual IPv4 address and gateway. Then rename the PC to DC1 to establish that server as the first domain controller.
+
+10) Set up the second Windows server the same way we did with the first server to establish the second domain controller.
+
+11) 
