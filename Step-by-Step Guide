@@ -11,3 +11,7 @@
 6) Once the updates are ready, complete the same steps for another server VM.
 
 7) After setting up 2 Windows server VMs, complete the setup for the client side Windows 11 Enterprise.
+
+8) After the completion of all Windows servers, I took a snapshot of each one in order to establish a baseline snapshot in case something goes severely wrong and I need to hard reset back to original settings. I took another snapshot of the server side VMs after configuration to establish a post-config baseline.
+
+9)
