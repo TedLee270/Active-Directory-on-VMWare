@@ -8,4 +8,6 @@
 
 5) Once you have set up the servers, check for any Windows updates for security purposes.
 
-6) 
+6) Once the updates are ready, complete the same steps for another server VM.
+
+7) After setting up 2 Windows server VMs, complete the setup for the client side Windows 11 Enterprise.
