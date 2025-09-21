@@ -18,4 +18,10 @@
 
 10) Set up the second Windows server the same way we did with the first server to establish the second domain controller.
 
-11) 
+11) Install the Active Directory Domain Services features on DC1. After installation, promote the server to a domain controller and select "Add a new forest". I named my root domain as MyDomain.local. During the pre-req check, if an error pops up, run the command line "net user administrator /passwordreq:yes" in order to fix the issue in terminal as the administrator. 
+
+12) Install VMWare Tools on the Windows 11 Enterprise VM for comfortability. Then set up the IPv4 address the same way with the gateway and preferred DNS pointed to DC1.
+
+13) Promote the second server to a domain controller and add it to an existing domain. Change the credentials to administrator@mydomain.local and select the domain. Continue forward like before. 
+
+14) Go to the client server, settings, system, then click on Domain or Workgroup. Change from Workgroup to the Domain Controller's domain and restart the VM.
