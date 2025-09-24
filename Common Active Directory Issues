@@ -1,0 +1,53 @@
+# ***Common Active Directory Issues***
+
+### This is where I will note the most common Active Directory issues and what steps I would take to troubleshoot and fix them.
+
+1) Account Lockouts & Password Issues
+  * Symptoms: User can't log in; "account locked" or "invalid credentials" message.
+  * Causes: Forgotten password, expired password, multiple devices/services caching old credentials, mapped drives or Outlook using outdated credentials.
+  * Solution: 
+
+2) Group Membership & Permission Problems
+  * Symptoms: User can't access a shared folder, printer, or application.
+  * Causes: Not being in the correct AD group, group nesting confusion, or missing NTFS/share permissions.
+  * Solution:
+
+3) DNS Issues
+  * Symptoms: User can't log into domain, Group Policy doesn't apply, or computers can't find domain controllers.
+  * Causes: Wrong DNS server set (especially pointing to public DNS instead of internal DC), misconfigured zones.
+  * Solution:
+
+4) Group Policy (GPO) Not Applying
+  * Symptoms: Desktop background, software installs, drive mappings, or restrictions don't apply.
+  * Causes: Replication issues, wrong OU placement, security filtering, or slow link detection.
+  * Solution:
+
+5) Replication Failures Between Domain Controllers
+  * Symptoms: Changes (like password resets) don't take effect on all DCs, event log errors.
+  * Causes: Network issues, DNS misconfiguration, USN rollback.
+  * Solution:
+
+6) Joining Computers to the Domain
+  * Symptoms: "Domain not found" or "can't join domain".
+  * Causes: Wrong DNS, time not synced, network/firewall issues.
+  * Solution:
+
+7) Time Synchronization Issues
+  * Symptoms: Kerberos authentication fails, logon errors.
+  * Causes: Time drift > 5 min between client and DC.
+  * Solution:
+
+8) Organizational Unit (OU) Misconfiguration
+  * Symptoms: Policies not applying or users getting unintended restrictions.
+  * Causes: Users/computers in the wrong OU, GPOs linked incorrectly.
+  * Solution:
+
+9) Authentication/Kerberos Issues
+  * Symptoms: User logs in but can't access resources; "The trust relationship between this workstation and domain failed."
+  * Causes: Computer account password mismatch, stale records.
+  * Solution:
+
+10) Profile & Roaming Profile Issues
+  * Symptoms: Users lose desktop files, slow logins, temporary profiles.
+  * Causes: Corrupt profiles, network share not accessible.
+  * Solution:
