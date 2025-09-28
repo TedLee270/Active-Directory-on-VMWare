@@ -10,6 +10,8 @@
 
 * To rename the computer, go to Settings > System > About and you'll see the option to rename the computer at the top. Again, I've renamed my DC1 for flexibility. Restart your computer to finalize the change.
 
+* If you want to showcase some advanced skills, you can run sconfig, select 2) Computer Name and change it that way. You can also change the Domain/Workgroup as well.
+
 * After the PC has restarted, go to Tools > Computer Management > Local Users and Groups > Users > Administrator > Right-click and select Set Password.
 
 * Once the password has been set for the Admin, we are going to install the tools needed for Active Directory. Click through the menu until you reach the Server Roles section and select Active Directory Domain Services which will install other tools and features.
@@ -28,7 +30,7 @@
 
 * Once you reach this stage, you can complete the installation. 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## How to connect another Domain Controller to another Domain Controller
 
@@ -42,9 +44,9 @@
 
 * Create the DSRM password just like the main DC and finish installation. 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## How to add a user to a Domain Controller
+## How to add another PC to a Domain Controller
 
 * After installing the Windows 11 server and set up has been complete, we will be setting up another static IP address and ensuring that this PC is also on the same subnet as the main DC. The gateway and preferred DNS should be the same as the main DC. 
 
@@ -54,7 +56,57 @@
 
 * Input the administrator user and password and it will pop up with a welcome to this domain message and restart the computer to finalize the changes.
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+## Add Users
 
+* Right click on the domain name in the Active Directory Users and Computers Tool > New > User.
+
+* Fill in the information like first, middle, and last name and the username.
+
+* Create a temporary password so that the new user may log in and keep the "User must change password at next logon" checked so that they can create their own password when they first log on. 
+
+* Once created, you can right click and go to Properties in order to fill in more information about the user or assign them specific groups, etc.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Add Groups
+
+* Right click on the domain > New > Group and fill in the information like group name, scope (Domain local, Global, or Universal), and type (Security or Distribution).
+
+* 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Add/Remove Users in Groups
+
+* You can go to the Properties of either the User or the Group and add the user to the group. 
+
+* You can use the same steps to remove users from groups as well.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Recover a User
+
+* 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Create an Organizational Unit (OU)
+
+* 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Create a Shareable Folder
+
+* 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to add a Printer
+
+* 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
