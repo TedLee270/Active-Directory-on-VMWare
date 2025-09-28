@@ -1,0 +1,60 @@
+## How to set up a Domain Controller on Windows
+
+* Assuming that the Windows server VM has already been set up from the step by step guide, here is what needs to be done in order to transform the VM into a Domain Controller.
+
+* We need to manually establish an IP address for the domain controller as we do not need the domain controller's IP address to change every time the VM starts up as that means we would have to reconnect every single domain controller or user back to the main domain controller.
+
+* We can set up the IP address when we go into Settings > Network & internet > Ethernet > IP assignment. Change the assignment from DHCP to IPv4. Keep the subnet the same as the computer and the gateway should stay the same so if the default gateway IP was 192.168.107.2, keep it that way. The preferred DNS should point back at itself so whatever IP address that you created for the IPv4 should be the preferred DNS so for example, if the VM's IP address is 192.168.107.28, the IP address you create could be 192.168.107.100 and that would also be your preferred DNS. DO NOT point to a public server because if that public server responds first, it won't have any information on the computers that are connected to your domain controller.
+
+* Once the static IP address has been set up, we need to rename the computer BEFORE converting it to a domain controller as once it becomes a DC, it can NOT be renamed. I've named my first/original DC to DC1 and you may choose a different name, however, I have set it up as DC1 because it gives me the flexibility to add more domain controllers and I'll still know which one is the main one. So even if I am only setting up one DC, I want to give myself the option to add more later on.
+
+* To rename the computer, go to Settings > System > About and you'll see the option to rename the computer at the top. Again, I've renamed my DC1 for flexibility. Restart your computer to finalize the change.
+
+* After the PC has restarted, go to Tools > Computer Management > Local Users and Groups > Users > Administrator > Right-click and select Set Password.
+
+* Once the password has been set for the Admin, we are going to install the tools needed for Active Directory. Click through the menu until you reach the Server Roles section and select Active Directory Domain Services which will install other tools and features.
+
+* After installation, go up to the flag that has a yellow triangle and click Promote this server to a domain controller.
+
+* Since this will be a brand new DC in a brand new domain, we will select the option to Add a new forest. There can be multiple different domains under this forest. Think of this as a brand new field with one big tree in the center and whatever new DC or user you add is like planting a new tree or some sort of shrubery that will then become the "forest".
+
+* Since this is in a test environment with VMs, I can use whatever domain name I would like. However, in a production environment, it would be best to purchase the domain name and certificates to be in compliance with industry standard best practices. 
+
+* Set the Directory Services Restore Mode (DSRM) password just in case AD isn't working properly.
+
+* The NetBIOS domain name will be filled in automatically.
+
+* If there is an error that occurs at this stage, access terminal as an administrator and type in "user administrator /passwordreq:yes" in order to bypass the error.
+
+* Once you reach this stage, you can complete the installation. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to connect another Domain Controller to another Domain Controller
+
+* After creating another Windows server like previously or as shown in my step-by-step guide, we will access the Settings > Network & internet > Ethernet > IP assignment. From there we will switch from DHCP to manual IPv4. Keep the IP address in the same subnet as the domain controller that you're trying to connect to so that they can communicate with each other. The preferred DNS should be the IP address of the DC you're trying to connect to along with the gateway.
+
+* Rename this PC to DC2 (or whichever naming system that you're using) and restart your PC.
+
+* Complete the same steps as above in order to promote this PC to a DC as well.
+
+* However, instead of Adding a new forest in this PC, we will be connecting to an already existing domain. Instead of selecting a domain, select the change button and put in the AD username and password. For the username I put, administrator@mydomain.local (mydomain.local is my domain name). Once that has been inputted, the domain can now be selected.
+
+* Create the DSRM password just like the main DC and finish installation. 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to add a user to a Domain Controller
+
+* After installing the Windows 11 server and set up has been complete, we will be setting up another static IP address and ensuring that this PC is also on the same subnet as the main DC. The gateway and preferred DNS should be the same as the main DC. 
+
+* Rename that PC to whoever the user may be and restart the PC.
+
+* Once it comes back online, go to Settings > System > About > Related Links: Domain or workgroup. Next click the Change button, and switch from workgroup to domain and input the main DC's domain name (not case sensitive).
+
+* Input the administrator user and password and it will pop up with a welcome to this domain message and restart the computer to finalize the changes.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
