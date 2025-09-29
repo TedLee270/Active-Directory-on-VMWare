@@ -86,21 +86,45 @@
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Recover a User
+## Recovering a password / enable account
 
-* 
+* Click "Find objects in Active Directory Domain Services" > type in the user's name.
+
+* Double click on their name to bring up the Properties menu and go to the Account section and click "Unlock account" and "User must change password at next logon".
+
+* To only reset a password, right-click on their name and select "Reset Password..." and you can create a temporary password for them.
+
+* Like previously mentioned, make sure the "User must change password at next logon" option is checked and if they need their account unlocked, you can select that option as well.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Create an Organizational Unit (OU)
 
-* 
+* Right-click the domain and select New > Organizational Unit.
+
+* Name it whatever you need it for and selec the option to "Protect container from accidental deletion" in order to protect any pertinent information contained inside the OU.
+
+# DELETE AN OU
+
+* If you need to delete an OU, go to View > Advanced Features.
+
+* Then right-click on that OU and go to the Properties menu.
+
+* You will see more menu items than before. Select the Object menu and deselect the "Protect container from accidental deletion" option. Now you will be able to delete that OU.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Create a Shareable Folder
 
-* 
+* Right-click on the domain and go to New > Shared Folder and name it for whatever you need it for. 
+
+* For the path, go to your File Explorer, go to your C drive, and create a new folder. 
+
+* Right-click on that folder and access the Properties menu, go to the Sharing menu and click on Share.
+
+* Then write the name of the group or user that you want to share this folder with.
+
+* Copy and paste the path that is provided onto the previous menu in Active Directory and that shared folder should now be accessible to whoever you have access to.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
