@@ -130,7 +130,9 @@
 
 ## How to add a Printer
 
-* 
+* Right-click on the domain and go to New > Printer.
+
+* For the path, go to Settings > Devices and printer > Select the printer and copy its path.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
