@@ -1,4 +1,4 @@
-How to set up a Domain Controller on Windows
+## How to set up a Domain Controller on Windows
 
 * Assuming that the Windows server VM has already been set up from the step by step guide, here is what needs to be done in order to transform the VM into a Domain Controller.
 
@@ -32,7 +32,7 @@ How to set up a Domain Controller on Windows
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-How to connect another Domain Controller to another Domain Controller
+## How to connect another Domain Controller to another Domain Controller
 
 * After creating another Windows server like previously or as shown in my step-by-step guide, we will access the Settings > Network & internet > Ethernet > IP assignment. From there we will switch from DHCP to manual IPv4. Keep the IP address in the same subnet as the domain controller that you're trying to connect to so that they can communicate with each other. The preferred DNS should be the IP address of the DC you're trying to connect to along with the gateway.
 
@@ -46,7 +46,7 @@ How to connect another Domain Controller to another Domain Controller
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-How to add another PC to a Domain Controller
+## How to add another PC to a Domain Controller
 
 * After installing the Windows 11 server and set up has been complete, we will be setting up another static IP address and ensuring that this PC is also on the same subnet as the main DC. The gateway and preferred DNS should be the same as the main DC. 
 
@@ -58,7 +58,7 @@ How to add another PC to a Domain Controller
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Add Users
+## Add Users
 
 * Right click on the domain name in the Active Directory Users and Computers Tool > New > User.
 
@@ -70,7 +70,7 @@ Add Users
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Add Groups
+## Add Groups
 
 * Right click on the domain > New > Group and fill in the information like group name, scope (Domain local, Global, or Universal), and type (Security or Distribution).
 
@@ -78,7 +78,7 @@ Add Groups
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Add/Remove Users in Groups
+## Add/Remove Users in Groups
 
 * You can go to the Properties of either the User or the Group and add the user to the group. 
 
@@ -86,7 +86,7 @@ Add/Remove Users in Groups
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Recovering a password / enable account
+## Recovering a password / enable account
 
 * Click "Find objects in Active Directory Domain Services" > type in the user's name.
 
@@ -98,13 +98,13 @@ Recovering a password / enable account
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Create an Organizational Unit (OU)
+## Create an Organizational Unit (OU)
 
 * Right-click the domain and select New > Organizational Unit.
 
 * Name it whatever you need it for and selec the option to "Protect container from accidental deletion" in order to protect any pertinent information contained inside the OU.
 
-- DELETE AN OU
+# DELETE AN OU
 
 * If you need to delete an OU, go to View > Advanced Features.
 
@@ -114,7 +114,7 @@ Create an Organizational Unit (OU)
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Create a Shareable Folder
+## Create a Shareable Folder
 
 * Right-click on the domain and go to New > Shared Folder and name it for whatever you need it for. 
 
@@ -128,7 +128,7 @@ Create a Shareable Folder
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-How to add a Printer
+## How to add a Printer
 
 * Right-click on the domain and go to New > Printer.
 
