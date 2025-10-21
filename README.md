@@ -2,3 +2,141 @@
 I am setting up Active Directory on a Windows Server on VMWare in order to gain experience working on AD.
 
 With AD set up and a client has been added, the next steps are to recreate common IT issues to try and resolve them.
+
+# Active Directory Quickstart Guide
+
+## How to set up a Domain Controller on Windows
+
+* Assuming that the Windows server VM has already been set up from the step by step guide, here is what needs to be done in order to transform the VM into a Domain Controller.
+
+* We need to manually establish an IP address for the domain controller as we do not need the domain controller's IP address to change every time the VM starts up as that means we would have to reconnect every single domain controller or user back to the main domain controller.
+
+* We can set up the IP address when we go into Settings > Network & internet > Ethernet > IP assignment. Change the assignment from DHCP to IPv4. Keep the subnet the same as the computer and the gateway should stay the same so if the default gateway IP was 192.168.107.2, keep it that way. The preferred DNS should point back at itself so whatever IP address that you created for the IPv4 should be the preferred DNS so for example, if the VM's IP address is 192.168.107.28, the IP address you create could be 192.168.107.100 and that would also be your preferred DNS. DO NOT point to a public server because if that public server responds first, it won't have any information on the computers that are connected to your domain controller.
+
+* Once the static IP address has been set up, we need to rename the computer BEFORE converting it to a domain controller as once it becomes a DC, it can NOT be renamed. I've named my first/original DC to DC1 and you may choose a different name, however, I have set it up as DC1 because it gives me the flexibility to add more domain controllers and I'll still know which one is the main one. So even if I am only setting up one DC, I want to give myself the option to add more later on.
+
+* To rename the computer, go to Settings > System > About and you'll see the option to rename the computer at the top. Again, I've renamed my DC1 for flexibility. Restart your computer to finalize the change.
+
+* If you want to showcase some advanced skills, you can run sconfig, select 2) Computer Name and change it that way. You can also change the Domain/Workgroup as well.
+
+* After the PC has restarted, go to Tools > Computer Management > Local Users and Groups > Users > Administrator > Right-click and select Set Password.
+
+* Once the password has been set for the Admin, we are going to install the tools needed for Active Directory. Click through the menu until you reach the Server Roles section and select Active Directory Domain Services which will install other tools and features.
+
+* After installation, go up to the flag that has a yellow triangle and click Promote this server to a domain controller.
+
+* Since this will be a brand new DC in a brand new domain, we will select the option to Add a new forest. There can be multiple different domains under this forest. Think of this as a brand new field with one big tree in the center and whatever new DC or user you add is like planting a new tree or some sort of shrubery that will then become the "forest".
+
+* Since this is in a test environment with VMs, I can use whatever domain name I would like. However, in a production environment, it would be best to purchase the domain name and certificates to be in compliance with industry standard best practices. 
+
+* Set the Directory Services Restore Mode (DSRM) password just in case AD isn't working properly.
+
+* The NetBIOS domain name will be filled in automatically.
+
+* If there is an error that occurs at this stage, access terminal as an administrator and type in "user administrator /passwordreq:yes" in order to bypass the error.
+
+* Once you reach this stage, you can complete the installation. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to connect another Domain Controller to another Domain Controller
+
+* After creating another Windows server like previously or as shown in my step-by-step guide, we will access the Settings > Network & internet > Ethernet > IP assignment. From there we will switch from DHCP to manual IPv4. Keep the IP address in the same subnet as the domain controller that you're trying to connect to so that they can communicate with each other. The preferred DNS should be the IP address of the DC you're trying to connect to along with the gateway.
+
+* Rename this PC to DC2 (or whichever naming system that you're using) and restart your PC.
+
+* Complete the same steps as above in order to promote this PC to a DC as well.
+
+* However, instead of Adding a new forest in this PC, we will be connecting to an already existing domain. Instead of selecting a domain, select the change button and put in the AD username and password. For the username I put, administrator@mydomain.local (mydomain.local is my domain name). Once that has been inputted, the domain can now be selected.
+
+* Create the DSRM password just like the main DC and finish installation. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to add another PC to a Domain Controller
+
+* After installing the Windows 11 server and set up has been complete, we will be setting up another static IP address and ensuring that this PC is also on the same subnet as the main DC. The gateway and preferred DNS should be the same as the main DC. 
+
+* Rename that PC to whoever the user may be and restart the PC.
+
+* Once it comes back online, go to Settings > System > About > Related Links: Domain or workgroup. Next click the Change button, and switch from workgroup to domain and input the main DC's domain name (not case sensitive).
+
+* Input the administrator user and password and it will pop up with a welcome to this domain message and restart the computer to finalize the changes.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Add Users
+
+* Right click on the domain name in the Active Directory Users and Computers Tool > New > User.
+
+* Fill in the information like first, middle, and last name and the username.
+
+* Create a temporary password so that the new user may log in and keep the "User must change password at next logon" checked so that they can create their own password when they first log on. 
+
+* Once created, you can right click and go to Properties in order to fill in more information about the user or assign them specific groups, etc.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Add Groups
+
+* Right click on the domain > New > Group and fill in the information like group name, scope (Domain local, Global, or Universal), and type (Security or Distribution).
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Add/Remove Users in Groups
+
+* You can go to the Properties of either the User or the Group and add the user to the group. 
+
+* You can use the same steps to remove users from groups as well.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Recovering a password / enable account
+
+* Click "Find objects in Active Directory Domain Services" > type in the user's name.
+
+* Double click on their name to bring up the Properties menu and go to the Account section and click "Unlock account" and "User must change password at next logon".
+
+* To only reset a password, right-click on their name and select "Reset Password..." and you can create a temporary password for them.
+
+* Like previously mentioned, make sure the "User must change password at next logon" option is checked and if they need their account unlocked, you can select that option as well.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Create an Organizational Unit (OU)
+
+* Right-click the domain and select New > Organizational Unit.
+
+* Name it whatever you need it for and selec the option to "Protect container from accidental deletion" in order to protect any pertinent information contained inside the OU.
+
+# DELETE AN OU
+
+* If you need to delete an OU, go to View > Advanced Features.
+
+* Then right-click on that OU and go to the Properties menu.
+
+* You will see more menu items than before. Select the Object menu and deselect the "Protect container from accidental deletion" option. Now you will be able to delete that OU.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Create a Shareable Folder
+
+* Right-click on the domain and go to New > Shared Folder and name it for whatever you need it for. 
+
+* For the path, go to your File Explorer, go to your C drive, and create a new folder. 
+
+* Right-click on that folder and access the Properties menu, go to the Sharing menu and click on Share.
+
+* Then write the name of the group or user that you want to share this folder with.
+
+* Copy and paste the path that is provided onto the previous menu in Active Directory and that shared folder should now be accessible to whoever you have access to.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## How to add a Printer
+
+* Right-click on the domain and go to New > Printer.
+
+* For the path, go to Settings > Devices and printer > Select the printer and copy its path.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
