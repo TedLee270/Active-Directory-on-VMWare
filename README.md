@@ -140,3 +140,102 @@ With AD set up and a client has been added, the next steps are to recreate commo
 * For the path, go to Settings > Devices and printer > Select the printer and copy its path.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# ***Common Active Directory Issues***
+
+### This is where I will note the most common Active Directory issues and what steps I would take to troubleshoot and fix them.
+
+1) Account Lockouts & Password Issues
+  * Symptoms: User can't log in; "account locked" or "invalid credentials" message.
+  * Causes: Forgotten password, expired password, multiple devices/services caching old credentials, mapped drives or Outlook using outdated credentials.
+  * Solution: 
+    * Open Active Directory Users and Computers (ADUC) -> Find the user - Right-click -> Properties -> Account -> Unlock Account.
+    * Reset the password if the user forgot.
+    * Run "Search-ADAccount -Lockedout" in Powershell to find all of the locked accounts.
+    * Have the user sign out of all devices and re-enter the new credentials.
+    * Check Event Viewer (Security logs) on the DC for repeated failed logons from specific machines.
+
+2) Group Membership & Permission Problems
+  * Symptoms: User can't access a shared folder, printer, or application.
+  * Causes: Not being in the correct AD group, group nesting confusion, or missing NTFS/share permissions.
+    * Solution:
+    * Verify the user's groups with "whoami /groups" or "Get_ADUser <username> -Properties memberOf".
+    * Confirm that the user is in the correct security group.
+    * Reapply or fix folder NFTS persmissions (Add -> Group -> Allow Access).
+    * Run "Effective Access" in folder properties to confirm expected rights.
+    * Force GP refresh using "gpupdate /force".
+
+3) DNS Issues
+  * Symptoms: User can't log into domain, Group Policy doesn't apply, or computers can't find domain controllers.
+  * Causes: Wrong DNS server set (especially pointing to public DNS instead of internal DC), misconfigured zones.
+  * Solution:
+    * Set client DNS to your DC's IP only.
+    * Run the commands: "ipconfig /flushdns" and "ipconfig /registerdns".
+    * On the DC, open DNS Manager and verify that forward/reverse lookup zones contain DC records.
+    * Use nslookup <domain> to confirm resolution.
+    * Restart Netlogon service is SRV records are missing with "net stop netlogon" and "net start netlogon".
+
+4) Group Policy (GPO) Not Applying
+  * Symptoms: Desktop background, software installs, drive mappings, or restrictions don't apply.
+  * Causes: Replication issues, wrong OU placement, security filtering, or slow link detection.
+  * Solution:
+    * Run the command "gpresult /r" or "gpresult /h gp.html" to see the applied GPOs.
+    * Verify the computer/user is in the correct OU.
+    * In Group Policy Management, ensure "Link Enabled" and "Enforced" as needed.
+    * Check permissions in the Delegation tab (Authenticated Users need Read + Apply).
+    * Force refresh using "gpupdate /force".
+    * Check Event Viewer -> Applications and Services Logs -> Microsoft -> Windows -> GroupPolicy.
+
+5) Replication Failures Between Domain Controllers
+  * Symptoms: Changes (like password resets) don't take effect on all DCs, event log errors.
+  * Causes: Network issues, DNS misconfiguration, USN rollback.
+  * Solution:
+    * Run the command "repadmin /replsummary", "repadmin /showrepl", and "dcdiag /test:replications".
+    * Ensure both DCs can ping each other by hostname (DNS resolution).
+    * Restart the ADDS service.
+    * If the replication is broken, force it with the command "repadmin /syncall /AeD".
+
+6) Joining Computers to the Domain
+  * Symptoms: "Domain not found" or "can't join domain".
+  * Causes: Wrong DNS, time not synced, network/firewall issues.
+  * Solution:
+    * Set the client's DNS to the DC IP address only.
+    * Ensure the time is correct by running "w32tm /resync".
+    * Verify the connectivity by running "ping <DCname>".
+    * Use the credentials with the proper domain join permissions.
+    * Check the firewall and ensure ports 88, 135, 389, 445, and 3268 are open.
+    * Port 88 is mainly used for Kerberos, Port 135 is mainly used for the Microsoft Remote Procedure Call (RPC) Endpoint Mapper service, Port 389 is mainly used for Lightweight Directory Access Protocol (LDAP) connections, Port 445 is mainly used for Server Message Block (SMB), and Port 3268 is mainly used for the standard LDAP port to query the Microsoft AD Global Catalog (GC).
+
+7) Time Synchronization Issues
+  * Symptoms: Kerberos authentication fails, logon errors.
+  * Causes: Time drift > 5 min between client and DC.
+  * Solution:
+    * Sync the time manually with "w32tm /resync".
+    * Force the reconfiguration with "w32tm /config /syncfromflags:domhier /update".
+    * Ensure your PDC Emulator DC syncs to an external NTP server.
+    * Reboot or restart Windows Time service if needed.
+
+8) Organizational Unit (OU) Misconfiguration
+  * Symptoms: Policies not applying or users getting unintended restrictions.
+  * Causes: Users/computers in the wrong OU, GPOs linked incorrectly.
+  * Solution:
+    * Verify the object placement in ADUC and move it to the proper OU.
+    * In Group Policy Management, check the OU link and inheritance settings.
+    * Use gpresult to confirm policy scope.
+
+9) Authentication/Kerberos Issues
+  * Symptoms: User logs in but can't access resources; "The trust relationship between this workstation and domain failed."
+  * Causes: Computer account password mismatch, stale records.
+  * Solution:
+    * On the DC, reset the computer account using "Reset-ComputerMachinePassword -Server <DCname> -Credential (Get-Credential)" or via ADUC -> Right-click computer -> "Reset Account".
+    * Rejoin the workstation to the domain.
+    * Restart and test login.
+
+10) Profile & Roaming Profile Issues
+  * Symptoms: Users lose desktop files, slow logins, temporary profiles.
+  * Causes: Corrupt profiles, network share not accessible.
+  * Solution:
+    * Check the share path in user properties (ensure permissions).
+    * Delete temporary profile foler (C:\Users\Temp).
+    * Fix share permissions (user: Full Control).
+    * Log out and back in to recreate the profile.
